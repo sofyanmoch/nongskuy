@@ -23,13 +23,28 @@
           <p class="text-center">Add</p>
           <ModalAdd />
         </b-col>
+        <b-col lg="12">
+          <button class="btn btn-danger" @click="onLogout()">OUT</button>
+        </b-col>
       </b-row>
     </b-container>
   </b-sidebar>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
   components: {
+  },
+  methods: {
+    ...mapActions({
+      actionLogout: 'auth/logout'
+    }),
+    onLogout () {
+      this.actionLogout().then(() => {
+        alert('Berhasil logout')
+        window.location = '/login'
+      })
+    }
   }
 }
 </script>

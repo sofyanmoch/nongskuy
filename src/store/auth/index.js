@@ -29,6 +29,16 @@ const actions = {
       })
     })
   },
+  register (context, payload) {
+    return new Promise((resolve, reject) => {
+      axios.post('http://localhost:3007/users/register', payload).then((response) => {
+        resolve(response.data.message)
+      }).catch((err) => {
+        // eslint-disable-next-line prefer-promise-reject-errors
+        reject('Gagal Login')
+      })
+    })
+  },
   logout (context) {
     return new Promise((resolve) => {
       localStorage.removeItem('token')

@@ -1,7 +1,7 @@
 <template>
     <b-row>
         <b-col lg="3">
-            <b-row class="mt-5">
+            <b-row class="my-5">
                  <b-col lg="12">
         <b-row class="login">
             <b-col lg="12" class="text-center">
@@ -9,17 +9,18 @@
             </b-col>
             <b-col lg="12">
                 <form class="mx-5 my-3" v-on:submit.prevent="onLogin()">
-                    <input type="text" v-model="form.email" class="form-control" placeholder="email">
-                    <input type="password" v-model="form.password" class="form-control" placeholder="password">
+                    <input type="text" v-model="form.email" class="form-control my-2" placeholder="email">
+                    <input type="password" v-model="form.password" class="form-control my-2" placeholder="password">
                     <button type="submit" class="btn btn-success">Login</button>
                 </form>
             </b-col>
+            <b-col lg="12" class="text-center">Belum memiliki akun? <router-link to="/register">Register</router-link></b-col>
         </b-row>
     </b-col>
             </b-row>
         </b-col>
         <b-col lg="9" class="login-image">
-            <img src="../assets/img/login-image.jpg" alt="" width="100%">
+            <img src="../assets/img/illust1.png" alt="" width="100%">
         </b-col>
     </b-row>
 </template>
