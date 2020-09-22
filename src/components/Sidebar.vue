@@ -3,7 +3,7 @@
     <b-container fluid>
       <b-row>
         <b-col cols="12" class="product m-0 text-center mt-5">
-          <router-link to="/">
+          <router-link to="/menu">
             <img src="../assets/img/fork.png" alt="Menu" class="my-0" />
             </router-link>
             <p class="text-center">Foods</p>
