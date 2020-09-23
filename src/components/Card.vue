@@ -1,8 +1,10 @@
 <template>
     <div class="menu">
+      <b-row>
+      <b-col lg="12">
       <div v-for="(item,index) in product" :key="index">
         <div class="item card">
-            <img :src="`http://54.161.214.210:3007/${item.image}`">
+            <img :src="`http://localhost:3007/${item.image}`">
                 </div>
                 <div class="row">
                     <div class="text-left col-lg-12 col-md-12 col-sm-12 col-12">
@@ -15,6 +17,8 @@
         <div  class="text-right col-lg-4 col-md-4 col-sm-4 col-4 my-2"><button type="button" class="btn btn-danger"><img src="../assets/img/delete.png" width="50%"></button></div>
         </div>
         </div>
+        </b-col>
+        </b-row>
     </div>
 </template>
 <script>
