@@ -17,7 +17,7 @@
                         placeholder="Search"
                       ></b-form-input>
                       <div class="btn btn-outline-primary">
-                        <b-icon icon="search" @click="searchProduct"></b-icon>
+                        <b-icon icon="search"></b-icon>
                       </div>
                     </b-input-group>
         </b-col>

@@ -3,7 +3,7 @@
 <b-modal id="addProduct" hide-footer centered title="Add Item">
     <b-row>
         <b-col lg="12">
-            <form @submit.prevent="sendData" enctype="multipart/form-data">
+            <form>
             <b-row class="my-3">
                 <b-col lg="3" cols="3">Name</b-col>
                 <b-col lg="9" cols="9">
@@ -13,7 +13,7 @@
             <b-row class="my-3">
                 <b-col lg="3" cols="3">Image</b-col>
                 <b-col lg="9" cols="9">
-                    <b-form-file type="file" @change="processFile($event)" required></b-form-file>
+                    <b-form-file type="file" required></b-form-file>
                 </b-col>
             </b-row>
             <b-row class="my-3">
@@ -25,11 +25,6 @@
             <b-row class="my-3">
                 <b-col lg="3" cols="3">Category</b-col>
                 <b-col lg="9" cols="9">
-                  <b-form-select v-model="category_id">
-                    <b-form-select-option v-for="(item, index) in categories" :key="index" :value="item.id" required>
-              {{item.category_name}}
-            </b-form-select-option>
-                  </b-form-select>
                   <!-- <div>
                     <b-form-select v-model="category">
                     <b-form-select-option v-for="(item,index) in categories" :key="index" :value="item.category_id">{{item.category_name}}</b-form-select-option>
@@ -40,8 +35,8 @@
              <div class="form-button">
             <!-- <input type="submit" value="Send"/> -->
             <!-- <input type="button" value="cancel" @click="$emit('addclose')"/> -->
-            <b-button class="mt-3" variant="outline-success" type="submit" block @click="load()" name="button">Add</b-button>
-            <b-button class="mt-3" variant="outline-danger" type="button" block @click="hideModal()">Cancel</b-button>
+            <b-button class="mt-3" variant="outline-success" type="submit" block name="button">Add</b-button>
+            <b-button class="mt-3" variant="outline-danger" type="button" block >Cancel</b-button>
           </div>
             </form>
         </b-col>
@@ -50,50 +45,3 @@
 </div>
 
 </template>
-<script>
-import axios from 'axios'
-export default {
-  data () {
-    return {
-      name: null,
-      category_id: null,
-      price: null,
-      image: null,
-      categories: []
-    }
-  },
-  methods: {
-    load () {
-      location.reload()
-    },
-    processFile (event) {
-      this.image = event.target.files[0]
-    },
-    getCategory () {
-      axios.get('http://localhost:3000/category/getall').then((res) => {
-        this.categories = res.data.data
-      }).catch((err) => {
-        console.log(err)
-      })
-    },
-    sendData () {
-      const fd = new FormData()
-      fd.append('name', this.name)
-      fd.append('category_id', this.category_id)
-      fd.append('price', this.price)
-      fd.append('image', this.image)
-      console.log(`Category = ${this.category_id}`)
-      axios.post('http://localhost:3000/produks/add', fd)
-        .then((res) => {
-          console.log(res.data.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
-  },
-  mounted () {
-    this.getCategory()
-  }
-}
-</script>

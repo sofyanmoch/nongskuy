@@ -11,9 +11,9 @@
                 </b-col>
                <b-col lg="12" class="card">
                  <b-row class="mt-4">
-                   <b-col lg="4"><Card /></b-col>
-                   <b-col lg="4"><Card /></b-col>
-                   <b-col lg="4"><Card /></b-col>
+                   <b-col lg="4">
+                     <Card />
+                    </b-col>
                  </b-row>
                </b-col>
                </b-row>

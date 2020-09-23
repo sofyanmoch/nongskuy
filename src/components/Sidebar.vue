@@ -21,7 +21,7 @@
             class="addProduct"
           /></button>
           <p class="text-center">Add</p>
-          <ModalAdd />
+          <!-- <ModalAdd /> -->
         </b-col>
         <b-col lg="12">
           <button class="btn btn-danger" @click="onLogout()">OUT</button>
