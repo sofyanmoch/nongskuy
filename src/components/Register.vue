@@ -1,12 +1,12 @@
 <template>
-    <div class="register-page"><b-col lg="12">
+    <div class="register-page"><b-col lg="6" cols="12">
                 <form class="mx-5 my-3" v-on:submit.prevent="onRegister()">
                     <input type="text" v-model="form.email" class="form-control my-2" placeholder="email">
                     <input type="password" v-model="form.password" class="form-control my-2" placeholder="password">
                     <button type="submit" class="btn btn-success">Register</button>
                 </form>
             </b-col>
-            <b-col lg="12" class="ml-5"> Sudah memiliki akun? <router-link to="/login">login</router-link></b-col>
+            <b-col lg="12" cols="12" class="ml-5"> Sudah memiliki akun? <router-link to="/login">login</router-link></b-col>
             </div>
 </template>
 <script>
@@ -37,10 +37,10 @@ export default {
 }
 </script>
 <style scoped>
-    form{
+    /* form{
         width: 100%;
-    }
-    .register-page{
+    } */
+    /* .register-page{
         width: 30%;
-    }
+    } */
 </style>

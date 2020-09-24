@@ -23,17 +23,20 @@
           <p class="text-center">Add</p>
           <ModalAdd />
         </b-col>
-        <b-col lg="12">
-          <button class="btn btn-danger" @click="onLogout()">OUT</button>
+        <b-col lg="12" class="out">
+          <button class="btn" @click="onLogout()"><img src="../assets/img/logout.png"></button>
+          <p v-hai="'red'">{{name}}</p>
         </b-col>
       </b-row>
     </b-container>
   </b-sidebar>
 </template>
 <script>
+import home from '../mixins/home'
 import { mapActions } from 'vuex'
 import ModalAdd from './ModalAdd'
 export default {
+  mixins: [home],
   components: {
     ModalAdd
   },
@@ -62,5 +65,8 @@ export default {
   .clipboard img{
      width: 35px;
     height: 35px
+  }
+  .out img{
+    width: 80%;
   }
 </style>

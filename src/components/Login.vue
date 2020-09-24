@@ -5,7 +5,7 @@
                  <b-col lg="12">
         <b-row class="login">
             <b-col lg="12" class="text-center">
-                <h3>Login</h3>
+                <h3 v-warna="red">Login</h3>
             </b-col>
             <b-col lg="12">
                 <form class="mx-5 my-3" v-on:submit.prevent="onLogin()">

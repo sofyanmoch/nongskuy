@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import Menu from '../views/Menu.vue'
 import store from '../store'
 import Register from '../views/Register.vue'
+import History from '../views/History.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -27,6 +28,14 @@ const routes = [
     path: '/menu',
     name: 'Menu',
     component: Menu,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/history',
+    name: 'History',
+    component: History,
     meta: {
       requiresAuth: true
     }
