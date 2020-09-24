@@ -3,7 +3,8 @@ import axios from 'axios'
 const state = () => {
   return {
     product: [],
-    category: []
+    category: [],
+    isLoading: false
   }
 }
 const getters = {
@@ -21,6 +22,9 @@ const mutations = {
   },
   SET_CATEGORY (state, payload) {
     state.category = payload
+  },
+  SET_ALL_LOADING (state, payload) {
+    state.all.isLoading = payload
   }
 }
 
@@ -54,7 +58,7 @@ const actions = {
       fd.append('category_id', payload.category_id)
       fd.append('price', payload.price)
       fd.append('image', payload.image)
-      axios.post('http://localhost:3007/produks/add, fd')
+      axios.post('http://localhost:3007/produks/add', fd)
         .then((response) => {
           resolve(response)
         })
@@ -62,7 +66,32 @@ const actions = {
           reject(err)
         })
     })
+  },
+  //   update (context, payload) {
+  //     context.commit('SET_ALL_LOADING', true)
+  //     return new Promise((resolve, reject) => {
+  //       axios.put(`http://localhost:3007/produks/edit/${payload.id}`, payload.formdata)
+  //         .then((response) => {
+  //           // console.log(response)
+  //           resolve()
+  //         }).catch((err) => {
+  //           console.log(err.message)
+  //         }).finally(() => {
+  //           context.commit('SET_ALL_LOADING', false)
+  //         })
+  //     })
+  //   },
+  delete (context, payload) {
+    return new Promise((resolve, reject) => {
+      axios.delete(`http://localhost:3007/produks/delete/${payload}`).then((response) => {
+        resolve(response)
+        location.reload()
+      }).catch((err) => {
+        reject(err)
+      })
+    })
   }
+
 }
 
 export default {

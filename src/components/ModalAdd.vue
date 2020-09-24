@@ -56,9 +56,7 @@ export default {
   data () {
     return {
       input: {
-        dataCategory: null,
         name: null,
-        category: null,
         category_id: null,
         price: null,
         image: null
@@ -86,6 +84,7 @@ export default {
         .catch(err => {
           console.log(err)
         })
+      console.log(this.input)
     },
     processFile (event) {
       this.image = event.target.files[0]
