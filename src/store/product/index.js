@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { url } from '../../helpers/env.js'
 
 const state = () => {
   return {
@@ -31,7 +32,7 @@ const mutations = {
 const actions = {
   getProduct (context) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3007/produks/getall').then((response) => {
+      axios.get(`${url}/produks/getall`).then((response) => {
         context.commit('SET_PRODUCT', response.data.data)
         console.log(response.data.data)
         resolve()

@@ -9,8 +9,8 @@
             </b-col>
             <b-col lg="12">
                 <form class="mx-5 my-3" v-on:submit.prevent="onLogin()">
-                    <input type="text" v-model="form.email" class="form-control my-2" placeholder="email">
-                    <input type="password" v-model="form.password" class="form-control my-2" placeholder="password">
+                    <input type="text" v-model="form.email" class="form-control my-2" placeholder="email" required>
+                    <input type="password" v-model="form.password" class="form-control my-2" placeholder="password" required>
                     <button type="submit" class="btn btn-success">Login</button>
                 </form>
             </b-col>
@@ -39,7 +39,12 @@ export default {
     onLogin () {
       this.actionLogin(this.form).then((response) => {
         alert(response)
-        window.location = '/menu'
+        console.log(response)
+        if (response === 'Login Success') {
+          window.location = '/menu'
+        } else {
+          return false
+        }
       // eslint-disable-next-line handle-callback-err
       }).catch((err) => {
         alert(err)

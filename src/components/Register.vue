@@ -1,5 +1,6 @@
 <template>
     <div class="register-page"><b-col lg="6" cols="12">
+      <div class="text-center mt-5"><h4>Register</h4></div>
                 <form class="mx-5 my-3" v-on:submit.prevent="onRegister()">
                     <input type="text" v-model="form.email" class="form-control my-2" placeholder="email">
                     <input type="password" v-model="form.password" class="form-control my-2" placeholder="password">
