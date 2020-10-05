@@ -1,11 +1,12 @@
 import axios from 'axios'
-import { url } from '../../helpers/env.js'
+// import { url } from '../../helpers/env'
 
 const state = () => {
   return {
     product: [],
     category: [],
-    isLoading: false
+    isLoading: false,
+    getDetail: []
   }
 }
 const getters = {
@@ -14,6 +15,9 @@ const getters = {
   },
   getAllCategory (state) {
     return state.category
+  },
+  getDetail (state) {
+    return state.getDetail
   }
 }
 
@@ -24,6 +28,9 @@ const mutations = {
   SET_CATEGORY (state, payload) {
     state.category = payload
   },
+  GET_DETAIL (state, payload) {
+    state.getDetail = payload
+  },
   SET_ALL_LOADING (state, payload) {
     state.all.isLoading = payload
   }
@@ -32,8 +39,109 @@ const mutations = {
 const actions = {
   getProduct (context) {
     return new Promise((resolve, reject) => {
-      axios.get(`${url}/produks/getall`).then((response) => {
+      axios.get('http://localhost:3007/produks/getall').then((response) => {
         context.commit('SET_PRODUCT', response.data.data)
+        console.log(response.data.data)
+        resolve()
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+  searchData (context, payload) {
+    return new Promise((resolve, reject) => {
+      axios.get(`http://localhost:3007/produks/getall?name=${payload}`)
+        .then((response) => {
+          resolve()
+          context.commit('SET_PRODUCT', response.data.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally(() => {
+          context.commit('SET_ALL_LOADING', false)
+        })
+    })
+  },
+  sortLates (context, payload) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:3007/produks/getall?type=desc')
+        .then((response) => {
+          resolve()
+          context.commit('SET_PRODUCT', response.data.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally(() => {
+          context.commit('SET_ALL_LOADING', false)
+        })
+    })
+  },
+  sortHigherPrice (context, payload) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:3007/produks/getall?sortby=price&type=desc')
+        .then((response) => {
+          resolve()
+          context.commit('SET_PRODUCT', response.data.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally(() => {
+          context.commit('SET_ALL_LOADING', false)
+        })
+    })
+  },
+  sortLowerPrice (context, payload) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:3007/produks/getall?sortby=price&type=asc')
+        .then((response) => {
+          resolve()
+          context.commit('SET_PRODUCT', response.data.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally(() => {
+          context.commit('SET_ALL_LOADING', false)
+        })
+    })
+  },
+  sortAsc (context, payload) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:3007/produks/getall?sortby=name&type=asc')
+        .then((response) => {
+          resolve()
+          context.commit('SET_PRODUCT', response.data.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally(() => {
+          context.commit('SET_ALL_LOADING', false)
+        })
+    })
+  },
+  sortDesc (context, payload) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:3007/produks/getall?sortby=name&type=desc')
+        .then((response) => {
+          resolve()
+          context.commit('SET_PRODUCT', response.data.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+        .finally(() => {
+          context.commit('SET_ALL_LOADING', false)
+        })
+    })
+  },
+  getDetail (context) {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:3007/produks/getdetail').then((response) => {
+        context.commit('GET_DETAIL', response.data.data)
         console.log(response.data.data)
         resolve()
       }).catch((err) => {

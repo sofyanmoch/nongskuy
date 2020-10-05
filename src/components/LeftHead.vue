@@ -5,21 +5,8 @@
             <b-button v-b-toggle.my-sidebar>=</b-button>
         <Sidebar />
         </b-col>
-        <b-col lg="7" cols="7" class="py-2 text-center">
+        <b-col lg="10" cols="10" class="py-2 text-center">
             <h3>Food Items</h3>
-        </b-col>
-        <b-col lg="4" cols="4" class="py-2 search">
-            <b-input-group>
-                      <b-form-input
-                        id="input-1"
-                        type="text"
-                        v-model="name"
-                        placeholder="Search"
-                      ></b-form-input>
-                      <div class="btn btn-outline-primary">
-                        <b-icon icon="search"></b-icon>
-                      </div>
-                    </b-input-group>
         </b-col>
     </b-row>
 </div>

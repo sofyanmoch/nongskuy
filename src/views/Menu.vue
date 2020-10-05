@@ -1,7 +1,8 @@
 <template>
     <div>
+      <ModalEdit />
         <!-- <button class="btn btn-danger" @click="onLogout()">LOGOUT</button> -->
-        <b-row class="fluid mx-2">
+        <b-row class="container-fluid mx-2">
           <b-col lg="12">
             <b-row>
               <b-col lg="8" class="mt-3">
@@ -11,7 +12,7 @@
                 </b-col>
                <b-col lg="12" class="card">
                  <b-row class="mt-4">
-                   <b-col lg="4">
+                   <b-col lg="12">
                      <Card />
                      </b-col>
                  </b-row>
@@ -34,6 +35,7 @@ import LeftHead from '../components/LeftHead'
 import RightHead from '../components/RightHead'
 import Card from '../components/Card'
 import EmptyCart from '../components/EmptyCart'
+import ModalEdit from '../components/ModalEdit'
 import { mapActions } from 'vuex'
 export default {
   data () {
@@ -43,7 +45,8 @@ export default {
     LeftHead,
     RightHead,
     Card,
-    EmptyCart
+    EmptyCart,
+    ModalEdit
   },
   methods: {
     ...mapActions({
