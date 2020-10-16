@@ -1,12 +1,13 @@
 import axios from 'axios'
-// import { url } from '../../helpers/env'
 
 const state = () => {
   return {
     product: [],
     category: [],
     isLoading: false,
-    getDetail: []
+    detail: {
+      data: []
+    }
   }
 }
 const getters = {
@@ -17,7 +18,7 @@ const getters = {
     return state.category
   },
   getDetail (state) {
-    return state.getDetail
+    return state.detail
   }
 }
 
@@ -28,8 +29,8 @@ const mutations = {
   SET_CATEGORY (state, payload) {
     state.category = payload
   },
-  GET_DETAIL (state, payload) {
-    state.getDetail = payload
+  SET_DETAIL (state, payload) {
+    state.detail.data = payload
   },
   SET_ALL_LOADING (state, payload) {
     state.all.isLoading = payload
@@ -41,7 +42,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       axios.get('http://localhost:3007/produks/getall').then((response) => {
         context.commit('SET_PRODUCT', response.data.data)
-        console.log(response.data.data)
         resolve()
       }).catch((err) => {
         reject(err)
@@ -138,12 +138,11 @@ const actions = {
         })
     })
   },
-  getDetail (context) {
+  getDetail (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3007/produks/getdetail').then((response) => {
-        context.commit('GET_DETAIL', response.data.data)
-        console.log(response.data.data)
-        resolve()
+      axios.get(`http://localhost:3007/produks/getdetail/${payload}`).then((response) => {
+        context.commit('SET_DETAIL', response.data.data)
+        resolve(response.data.data)
       }).catch((err) => {
         reject(err)
       })
@@ -153,7 +152,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       axios.get('http://localhost:3007/category/getall').then((response) => {
         context.commit('SET_CATEGORY', response.data.data)
-        console.log(response.data.data)
+        // console.log(response.data.data)
         resolve()
       }).catch(err => {
         reject(err)
@@ -176,20 +175,21 @@ const actions = {
         })
     })
   },
-  //   update (context, payload) {
-  //     context.commit('SET_ALL_LOADING', true)
-  //     return new Promise((resolve, reject) => {
-  //       axios.put(`http://localhost:3007/produks/edit/${payload.id}`, payload.formdata)
-  //         .then((response) => {
-  //           // console.log(response)
-  //           resolve()
-  //         }).catch((err) => {
-  //           console.log(err.message)
-  //         }).finally(() => {
-  //           context.commit('SET_ALL_LOADING', false)
-  //         })
-  //     })
-  //   },
+  update (context, payload) {
+    return new Promise((resolve, reject) => {
+      const fd = new FormData()
+      fd.append('name', payload.name)
+      fd.append('category_id', payload.category)
+      fd.append('price', payload.price)
+      fd.append('image', payload.image)
+      axios.patch(`http://localhost:3007/produks/edit/${payload.id}`, fd).then((result) => {
+        resolve(result.data.message)
+      }).catch((err) => {
+        console.log(err)
+        reject(err)
+      })
+    })
+  },
   delete (context, payload) {
     return new Promise((resolve, reject) => {
       axios.delete(`http://localhost:3007/produks/delete/${payload}`).then((response) => {

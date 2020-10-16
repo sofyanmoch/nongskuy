@@ -1,5 +1,5 @@
 require('dotenv')
 
 module.exports = {
-  url: process.env.url
+  url: process.env.VUE_APP_IP
 }

@@ -39,7 +39,7 @@
   </b-row>
   <b-row>
     <b-col lg="12" class="my-5">
-      <h2 class="text-center">bayangin aja ini chart js</h2>
+      <h2 class="text-center">This is not yet</h2>
     </b-col>
   </b-row>
 </b-col>

@@ -51,6 +51,7 @@
 
 </template>
 <script>
+import Swal from 'sweetalert2'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
@@ -77,9 +78,21 @@ export default {
       this.input.image = this.image
       this.insert(this.input)
         .then((response) => {
-          console.log(response)
-          alert(response.data.message)
-          location.reload()
+          if (response.data.message === 'Add produks success') {
+            Swal.fire(
+              'Good job!',
+              'Success Add Product!',
+              'success'
+            )
+            location.reload()
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong!',
+              footer: '<a href>Why do I have this issue?</a>'
+            })
+          }
         })
         .catch(err => {
           console.log(err)

@@ -46,10 +46,12 @@
 
 </template>
 <script>
+import axios from 'axios'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
+      id: localStorage.getItem('id')
 
     }
   },
@@ -61,10 +63,20 @@ export default {
   methods: {
     ...mapActions({
       getCategory: 'product/getCategory'
-    })
+    }),
+    getDetail () {
+      const id = this.id
+      return new Promise((resolve, reject) => {
+        axios.get(`SELECT * from produk where id = '${id}'`, (err, result) => {
+          err ? reject(new Error(err)) : resolve(result)
+          console.log(result)
+        })
+      })
+    }
   },
   mounted () {
     this.getCategory()
+    this.getDetail()
   }
 }
 </script>

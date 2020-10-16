@@ -1,30 +1,51 @@
 <template>
-    <b-row>
-        <b-col lg="3">
-            <b-row class="my-5">
-                 <b-col lg="12">
-        <b-row class="login">
-            <b-col lg="12" class="text-center">
-                <h3 v-warna="red">Login</h3>
+    <div class="container-fluid">
+      <b-row class="card home">
+        <b-col lg="12">
+          <b-row>
+            <b-col lg="7" class="image">
+              <div class="left px-5 py-5">
+                <img src="../assets/img/undraw_eating_together_tjhx (1).svg" alt="">
+              </div>
             </b-col>
-            <b-col lg="12">
-                <form class="mx-5 my-3" v-on:submit.prevent="onLogin()">
-                    <input type="text" v-model="form.email" class="form-control my-2" placeholder="email" required>
-                    <input type="password" v-model="form.password" class="form-control my-2" placeholder="password" required>
-                    <button type="submit" class="btn btn-success">Login</button>
-                </form>
+            <b-col lg="5" cols="12" class="card-body my-5">
+              <div class="right ">
+                <b-row>
+                  <b-col lg="12" class="text-center">
+                    <h2 class="mt-3" v-warna="red">Login</h2>
+                  </b-col>
+                  <b-col lg="12" cols="12">
+                    <form v-on:submit.prevent="onLogin()">
+                      <div class="form-group">
+                        <label >Email address</label>
+                        <input v-model="form.email" type="email" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label >Password</label>
+                        <input v-model="form.password" type="password" class="form-control">
+                      </div>
+                      <b-col lg="12">
+                        <b-row>
+                          <b-col lg="4" cols="4">
+                            <button type="submit" class="btn mt-1 btn-primary">Submit</button>
+                          </b-col>
+                          <b-col lg="8" cols="8">
+                            <b-col lg="12" cols="12" class="register">Don't have account?<router-link to="/register">Register</router-link></b-col>
+                          </b-col>
+                        </b-row>
+                      </b-col>
+                    </form>
+                  </b-col>
+                </b-row>
+              </div>
             </b-col>
-            <b-col lg="12" class="text-center">Belum memiliki akun? <router-link to="/register">Register</router-link></b-col>
-        </b-row>
-    </b-col>
-            </b-row>
+          </b-row>
         </b-col>
-        <b-col lg="9" class="login-image">
-            <img src="../assets/img/illust1.png" alt="" width="100%">
-        </b-col>
-    </b-row>
+      </b-row>
+    </div>
 </template>
 <script>
+import Swal from 'sweetalert2'
 import { mapActions } from 'vuex'
 export default {
   data () {
@@ -38,16 +59,23 @@ export default {
   methods: {
     onLogin () {
       this.actionLogin(this.form).then((response) => {
-        alert(response)
-        console.log(response)
         if (response === 'Login Success') {
           window.location = '/menu'
         } else {
-          return false
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: `${response}`
+          })
         }
       // eslint-disable-next-line handle-callback-err
       }).catch((err) => {
-        alert(err)
+        console.log(err)
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!'
+        })
       })
     },
     ...mapActions({
@@ -56,3 +84,26 @@ export default {
   }
 }
 </script>
+<style scoped>
+  /* .left{
+    position: fixed;
+} */
+.left img{
+  width: 100%;
+}
+.home{
+  margin: 50px;
+}
+
+@media only screen and (max-width: 500px) {
+  .image {
+    display: none;
+  }
+  .home{
+  margin: 0px;
+}
+.register{
+  font-size: 11px;
+}
+}
+</style>
