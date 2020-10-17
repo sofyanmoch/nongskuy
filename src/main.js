@@ -10,6 +10,7 @@ import axios from 'axios'
 axios.defaults.headers = {
   token: localStorage.getItem('token')
 }
+
 // Install BootstrapVue
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin

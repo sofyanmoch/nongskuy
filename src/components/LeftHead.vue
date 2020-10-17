@@ -1,11 +1,13 @@
 <template>
 <div>
     <b-row class="header pt-0">
-        <b-col lg="1" cols="1" class="py-2 text-center">
-            <b-button v-b-toggle.my-sidebar>=</b-button>
+        <b-col lg="1" cols="1" class="py-2 text-center" >
+            <b-button v-b-toggle.my-sidebar>
+              <b-icon icon="menu-button-wide"></b-icon>
+            </b-button>
         <Sidebar />
         </b-col>
-        <b-col lg="10" cols="10" class="py-2 text-center">
+        <b-col lg="11" cols="11" class="py-2 text-center">
             <h3>Food Items</h3>
         </b-col>
     </b-row>

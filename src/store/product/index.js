@@ -40,7 +40,7 @@ const mutations = {
 const actions = {
   getProduct (context) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3007/produks/getall').then((response) => {
+      axios.get('http://54.161.214.210:3008/produks/getall').then((response) => {
         context.commit('SET_PRODUCT', response.data.data)
         resolve()
       }).catch((err) => {
@@ -50,82 +50,67 @@ const actions = {
   },
   searchData (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get(`http://localhost:3007/produks/getall?name=${payload}`)
+      axios.get(`http://54.161.214.210:3008/produks/getall?name=${payload}`)
         .then((response) => {
           resolve()
           context.commit('SET_PRODUCT', response.data.data)
         })
         .catch((err) => {
           console.log(err)
-        })
-        .finally(() => {
-          context.commit('SET_ALL_LOADING', false)
         })
     })
   },
   sortLates (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3007/produks/getall?type=desc')
+      axios.get('http://54.161.214.210:3008/produks/getall?type=desc')
         .then((response) => {
           resolve()
           context.commit('SET_PRODUCT', response.data.data)
         })
         .catch((err) => {
           console.log(err)
-        })
-        .finally(() => {
-          context.commit('SET_ALL_LOADING', false)
         })
     })
   },
   sortHigherPrice (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3007/produks/getall?sortby=price&type=desc')
+      axios.get('http://54.161.214.210:3008/produks/getall?sortby=price&type=desc')
         .then((response) => {
           resolve()
           context.commit('SET_PRODUCT', response.data.data)
         })
         .catch((err) => {
           console.log(err)
-        })
-        .finally(() => {
-          context.commit('SET_ALL_LOADING', false)
         })
     })
   },
   sortLowerPrice (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3007/produks/getall?sortby=price&type=asc')
+      axios.get('http://54.161.214.210:3008/produks/getall?sortby=price&type=asc')
         .then((response) => {
           resolve()
           context.commit('SET_PRODUCT', response.data.data)
         })
         .catch((err) => {
           console.log(err)
-        })
-        .finally(() => {
-          context.commit('SET_ALL_LOADING', false)
         })
     })
   },
   sortAsc (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3007/produks/getall?sortby=name&type=asc')
+      axios.get('http://54.161.214.210:3008/produks/getall?sortby=name&type=asc')
         .then((response) => {
           resolve()
           context.commit('SET_PRODUCT', response.data.data)
         })
         .catch((err) => {
           console.log(err)
-        })
-        .finally(() => {
-          context.commit('SET_ALL_LOADING', false)
         })
     })
   },
   sortDesc (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3007/produks/getall?sortby=name&type=desc')
+      axios.get('http://54.161.214.210:3008/produks/getall?sortby=name&type=desc')
         .then((response) => {
           resolve()
           context.commit('SET_PRODUCT', response.data.data)
@@ -133,14 +118,11 @@ const actions = {
         .catch((err) => {
           console.log(err)
         })
-        .finally(() => {
-          context.commit('SET_ALL_LOADING', false)
-        })
     })
   },
   getDetail (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get(`http://localhost:3007/produks/getdetail/${payload}`).then((response) => {
+      axios.get(`http://54.161.214.210:3008/produks/getdetail/${payload}`).then((response) => {
         context.commit('SET_DETAIL', response.data.data)
         resolve(response.data.data)
       }).catch((err) => {
@@ -150,7 +132,7 @@ const actions = {
   },
   getCategory (context) {
     return new Promise((resolve, reject) => {
-      axios.get('http://localhost:3007/category/getall').then((response) => {
+      axios.get('http://54.161.214.210:3008/category/getall').then((response) => {
         context.commit('SET_CATEGORY', response.data.data)
         // console.log(response.data.data)
         resolve()
@@ -166,7 +148,7 @@ const actions = {
       fd.append('category_id', payload.category_id)
       fd.append('price', payload.price)
       fd.append('image', payload.image)
-      axios.post('http://localhost:3007/produks/add', fd)
+      axios.post('http://54.161.214.210:3008/produks/add', fd)
         .then((response) => {
           resolve(response)
         })
@@ -182,7 +164,7 @@ const actions = {
       fd.append('category_id', payload.category)
       fd.append('price', payload.price)
       fd.append('image', payload.image)
-      axios.patch(`http://localhost:3007/produks/edit/${payload.id}`, fd).then((result) => {
+      axios.patch(`http://54.161.214.210:3008/produks/edit/${payload.id}`, fd).then((result) => {
         resolve(result.data.message)
       }).catch((err) => {
         console.log(err)
@@ -192,7 +174,7 @@ const actions = {
   },
   delete (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.delete(`http://localhost:3007/produks/delete/${payload}`).then((response) => {
+      axios.delete(`http://54.161.214.210:3008/produks/delete/${payload}`).then((response) => {
         resolve(response)
         location.reload()
       }).catch((err) => {

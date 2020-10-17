@@ -4,7 +4,7 @@
         <b-col lg="12">
           <b-row>
             <b-col lg="7" class="image">
-              <div class="left px-5 py-5">
+              <div class="left ">
                 <img src="../assets/img/undraw_eating_together_tjhx (1).svg" alt="">
               </div>
             </b-col>
@@ -63,15 +63,15 @@ export default {
   methods: {
     onRegister () {
       this.actionRegister(this.form).then((response) => {
-        if (response === 'Register Success') {
+        if (response === 'Register Success Please checky your email to activation') {
           Swal.fire(
             'Good job!',
-            'Success Register!',
+            'Success Register! Redirecting to login page',
             'success'
           )
-          setTimeout(
+          setTimeout(() => {
             window.location = '/login'
-            , 5000)
+          }, 1000)
         } else {
           Swal.fire({
             icon: 'error',

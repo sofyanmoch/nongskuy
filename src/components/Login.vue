@@ -4,7 +4,7 @@
         <b-col lg="12">
           <b-row>
             <b-col lg="7" class="image">
-              <div class="left px-5 py-5">
+              <div class="left ">
                 <img src="../assets/img/undraw_eating_together_tjhx (1).svg" alt="">
               </div>
             </b-col>
