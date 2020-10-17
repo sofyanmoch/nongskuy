@@ -1,5 +1,9 @@
 # nongskuy
 
+# Demo Project
+http://54.161.214.210:3010/
+
+
 This is my first POS Project with vue js .
 I created it using vue js and the backend uses node js and express js
 Features:
