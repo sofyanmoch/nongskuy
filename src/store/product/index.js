@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { URL } from '../../helper/env'
 
 const state = () => {
   return {
@@ -40,7 +41,7 @@ const mutations = {
 const actions = {
   getProduct (context) {
     return new Promise((resolve, reject) => {
-      axios.get('http://54.161.214.210:3008/produks/getall').then((response) => {
+      axios.get(`${URL}/produks/getall`).then((response) => {
         context.commit('SET_PRODUCT', response.data.data)
         resolve()
       }).catch((err) => {
@@ -50,7 +51,7 @@ const actions = {
   },
   searchData (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get(`http://54.161.214.210:3008/produks/getall?name=${payload}`)
+      axios.get(`${URL}/produks/getall?name=${payload}`)
         .then((response) => {
           resolve()
           context.commit('SET_PRODUCT', response.data.data)
@@ -62,7 +63,7 @@ const actions = {
   },
   sortLates (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get('http://54.161.214.210:3008/produks/getall?type=desc')
+      axios.get(`${URL}/produks/getall?type=desc`)
         .then((response) => {
           resolve()
           context.commit('SET_PRODUCT', response.data.data)
@@ -74,7 +75,7 @@ const actions = {
   },
   sortHigherPrice (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get('http://54.161.214.210:3008/produks/getall?sortby=price&type=desc')
+      axios.get(`${URL}/produks/getall?sortby=price&type=desc`)
         .then((response) => {
           resolve()
           context.commit('SET_PRODUCT', response.data.data)
@@ -86,7 +87,7 @@ const actions = {
   },
   sortLowerPrice (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get('http://54.161.214.210:3008/produks/getall?sortby=price&type=asc')
+      axios.get(`${URL}/produks/getall?sortby=price&type=asc`)
         .then((response) => {
           resolve()
           context.commit('SET_PRODUCT', response.data.data)
@@ -98,7 +99,7 @@ const actions = {
   },
   sortAsc (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get('http://54.161.214.210:3008/produks/getall?sortby=name&type=asc')
+      axios.get(`${URL}/produks/getall?sortby=name&type=asc`)
         .then((response) => {
           resolve()
           context.commit('SET_PRODUCT', response.data.data)
@@ -110,7 +111,7 @@ const actions = {
   },
   sortDesc (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get('http://54.161.214.210:3008/produks/getall?sortby=name&type=desc')
+      axios.get(`${URL}/produks/getall?sortby=name&type=desc`)
         .then((response) => {
           resolve()
           context.commit('SET_PRODUCT', response.data.data)
@@ -122,7 +123,7 @@ const actions = {
   },
   getDetail (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.get(`http://54.161.214.210:3008/produks/getdetail/${payload}`).then((response) => {
+      axios.get(`${URL}/produks/getdetail/${payload}`).then((response) => {
         context.commit('SET_DETAIL', response.data.data)
         resolve(response.data.data)
       }).catch((err) => {
@@ -132,7 +133,7 @@ const actions = {
   },
   getCategory (context) {
     return new Promise((resolve, reject) => {
-      axios.get('http://54.161.214.210:3008/category/getall').then((response) => {
+      axios.get(`${URL}/category/getall`).then((response) => {
         context.commit('SET_CATEGORY', response.data.data)
         // console.log(response.data.data)
         resolve()
@@ -148,7 +149,7 @@ const actions = {
       fd.append('category_id', payload.category_id)
       fd.append('price', payload.price)
       fd.append('image', payload.image)
-      axios.post('http://54.161.214.210:3008/produks/add', fd)
+      axios.post(`${URL}/produks/add`, fd)
         .then((response) => {
           resolve(response)
         })
@@ -164,7 +165,7 @@ const actions = {
       fd.append('category_id', payload.category)
       fd.append('price', payload.price)
       fd.append('image', payload.image)
-      axios.patch(`http://54.161.214.210:3008/produks/edit/${payload.id}`, fd).then((result) => {
+      axios.patch(`${URL}/produks/edit/${payload.id}`, fd).then((result) => {
         resolve(result.data.message)
       }).catch((err) => {
         console.log(err)
@@ -174,7 +175,7 @@ const actions = {
   },
   delete (context, payload) {
     return new Promise((resolve, reject) => {
-      axios.delete(`http://54.161.214.210:3008/produks/delete/${payload}`).then((response) => {
+      axios.delete(`${URL}/produks/delete/${payload}`).then((response) => {
         resolve(response)
         location.reload()
       }).catch((err) => {

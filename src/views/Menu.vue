@@ -154,7 +154,7 @@
                         :key="index"
                       >
                         <div class="item card">
-                          <img :src="`http://54.161.214.210:3008/${item.image}`" />
+                          <img :src="`http://54.161.214.210:3012/${item.image}`" />
                         </div>
                         <div class="row">
                           <div
@@ -213,7 +213,11 @@
             </b-row>
           </b-col>
           <b-col lg="4" class="mt-3 cart-responsive">
-            <RightHead />
+            <b-row class="header-right text-center">
+                <b-col lg="12" class="py-2">
+                    <h3>Cart<span class="mx-2 cart-length ">{{cart.length}}</span></h3>
+                </b-col>
+            </b-row>
             <b-col lg="12">
               <div v-if="cart.length === 0">
                 <EmptyCart />
@@ -223,7 +227,7 @@
                   <b-col lg="12" v-for="(item,index) in cart" :key="index">
                     <b-row class="mt-4">
                       <b-col lg="3" cols="3">
-                        <img :src="`http://54.161.214.210:3008/${item.image}`" width="80px" height="80px" alt="">
+                        <img :src="`http://54.161.214.210:3012/${item.image}`" width="80px" height="80px" alt="">
                       </b-col>
                       <b-col lg="6" cols="6" class="text-center">
                         <h5>{{item.name}}</h5>
@@ -245,7 +249,7 @@
                         <p>*Belum termasuk ppn</p>
                       </b-col>
                       <b-col lg="6" cols="6" class="text-right">
-                        <h5>Rp. {{sumPrice}}</h5>
+                        <h5>Rp. {{formatRp(totalPrice())}}</h5>
                       </b-col>
                     </b-row>
                   </b-col>
@@ -268,7 +272,7 @@
                   <b-col lg="12" v-for="(item,index) in cart" :key="index">
                     <b-row class="mt-4">
                       <b-col lg="3" cols="3">
-                        <img :src="`http://54.161.214.210:3008/${item.image}`" width="80px" height="80px" alt="">
+                        <img :src="`http://54.161.214.210:3012/${item.image}`" width="80px" height="80px" alt="">
                       </b-col>
                       <b-col lg="6" cols="6" class="text-center">
                         <h5>{{item.name}}</h5>
@@ -290,20 +294,66 @@
                         <p>*Belum termasuk ppn</p>
                       </b-col>
                       <b-col lg="6" cols="6" class="text-right">
-                        <h5>Rp. {{sumPrice}}</h5>
+                        <h5>Rp. {{formatRp(totalPrice())}}</h5>
                       </b-col>
                     </b-row>
                   </b-col>
                   <b-col lg="12" class="my-3">
-                    <button v-b-modal.modal-co class="btn btn-checkout text-white">Checkout
+                    <button @click="checkout(item)" v-b-modal.modal-co class="btn btn-checkout text-white">Checkout
                     </button>
-                    <ModalCheckout />
                   </b-col>
                   <b-col lg="12">
                     <button class="btn btn-cancel text-white">Cancel</button>
                   </b-col>
                 </b-row>
           </b-modal>
+          <!-- modal co  -->
+          <b-modal id="modal-co" hide-footer title="Modal Checkout">
+    <b-col lg="12">
+        <b-row>
+            <b-col lg="12">
+                <h4>Invoice #23</h4>
+            </b-col>
+           <b-col lg="12">
+               <b-row>
+                    <b-col lg="6" cols="6" class="mt-2">Cashier :</b-col>
+            <b-col lg="6" cols="6">
+                <input type="text" class="form-control" placeholder="input Your name...">
+            </b-col>
+               </b-row>
+           </b-col>
+           <b-col lg="12" class="mt-5" v-for="(item,index) in cart" :key="index">
+               <b-row>
+                   <b-col lg="5" cols="5">
+                       <p>{{item.name}}</p>
+                   </b-col>
+                   <b-col lg="2" cols="2" class="text-center">
+                       {{item.qty}}
+                   </b-col>
+                   <b-col lg="5" cols="5" class="text-center">
+                       <p>Rp. {{formatRp(item.qty * item.price)}}</p>
+                   </b-col>
+               </b-row>
+           </b-col>
+           <b-col lg="12" class="mt-5">
+               <b-row>
+                   <b-col lg="6" cols="6" class="text-left">
+                       <h4>Total : </h4>
+                   </b-col>
+                   <b-col lg="6" cols="6" class="text-center">
+                       <h4>Rp. {{formatRp(totalPrice())}}</h4>
+                   </b-col>
+               </b-row>
+           </b-col>
+           <b-col lg="12">
+               <p>*PPN 10%</p>
+           </b-col>
+           <b-col lg="12" class="my-3">
+               <button @click="print" class="btn btn-checkout1 text-white">PRINT</button>
+           </b-col>
+        </b-row>
+    </b-col>
+  </b-modal>
         </b-row>
       </b-col>
     </b-row>
@@ -311,12 +361,11 @@
 </template>
 <script>
 import Swal from 'sweetalert2'
+import JsPDF from 'jspdf'
 import LeftHead from '../components/LeftHead'
-import RightHead from '../components/RightHead'
 import EmptyCart from '../components/EmptyCart'
 // import ModalEdit from '../components/ModalEdit'
 import { mapActions, mapGetters } from 'vuex'
-import ModalCheckout from '../components/ModalCheckout'
 export default {
   data () {
     return {
@@ -346,9 +395,7 @@ export default {
   },
   components: {
     LeftHead,
-    RightHead,
-    EmptyCart,
-    ModalCheckout
+    EmptyCart
     // ModalEdit
   },
   methods: {
@@ -378,8 +425,6 @@ export default {
           ...this.priceCart, dataCart[0].price
         ]
         this.sumPrice = this.priceCart
-        const reducer = (accumulator, currentValue) => accumulator + currentValue
-        this.sumPrice = this.priceCart.reduce(reducer)
       } else {
         const oldData = this.cart.map((e) => {
           if (e.id === id) {
@@ -389,6 +434,13 @@ export default {
         })
         this.cart = oldData
       }
+    },
+    totalPrice () {
+      let total = 0
+      for (let i = 0; i < this.cart.length; i++) {
+        total += this.cart[i].price * this.cart[i].qty
+      }
+      return total
     },
     minus (index) {
       const cart1 = this.cart[index].id
@@ -458,6 +510,26 @@ export default {
       })
       this.searchProduct(this.search)
     },
+    checkout (item) {
+      localStorage.setItem('cart', this.item)
+    },
+    formatRp (value) {
+      return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    },
+    print: function () {
+      const pdfName = 'Invoice'
+      var doc = new JsPDF()
+      doc.text('Ini invoice ceritanya', 10, 10)
+      doc.save(pdfName + '.pdf')
+      Swal.fire(
+        'Thank You!',
+        'Invoice Downloaded!',
+        'success'
+      )
+      setTimeout(() => {
+        window.location = '/menu'
+      }, 2000)
+    },
     deleteProduct (id) {
       this.deleteProducts(id).then(() => {
         Swal.fire({
@@ -497,6 +569,10 @@ export default {
   height: 100%;
   border-radius: 10px;
 }
+ .header-right{
+     height: 50px;
+box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+ }
 .card img:hover {
   opacity: 0.7;
   cursor: pointer;
@@ -518,6 +594,14 @@ box-sizing: border-box;
 }
 .btn-checkout {
   background: #57CAD5;
+  width: 100%;
+}
+.cart-length{
+  background: #57CAD5;
+  border-radius: 10px;
+}
+.btn-checkout1{
+    background: #F24F8A;
   width: 100%;
 }
 .btn-cancel{

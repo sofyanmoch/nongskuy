@@ -84,7 +84,7 @@ export default {
 }
 </script>
 <style scoped>
-.btn-checkout{
+.btn-checkout1{
     background: #F24F8A;
   width: 100%;
 }
