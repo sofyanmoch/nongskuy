@@ -6,10 +6,14 @@ https://github.com/sofyanmoch/nongskuy-api
 # Demo Project
 http://54.161.214.210:3013/
 
+# Development
+This app was built with :
+- With love 
+- VueJs
+- VueBootstrap
+- JSpdf
 
-This is my first POS Project with vue js .
-I created it using vue js and the backend uses node js and express js
-Features:
+# Features:
 - Register
 - Login
 - Verification email
