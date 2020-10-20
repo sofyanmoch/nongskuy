@@ -12,6 +12,7 @@ This app was built with :
 - VueJs
 - VueBootstrap
 - JSpdf
+- Sweetalert2
 
 # Features:
 - Register
