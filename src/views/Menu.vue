@@ -17,11 +17,11 @@
                       <div class="col-lg-12 col-12">
                         <div class="row">
                           <div class="col-lg-10 col-6">
-                            <form v-on:submit.prevent="">
+                            <form v-on:submit.prevent="getSearch(search)">
                               <input
                                 type="text"
                                 name="search"
-                                @keyup="getSearch(search)"
+                                @submit="getSearch(search)"
                                 v-model="search"
                                 id="search"
                                 class="form-control"
@@ -223,7 +223,7 @@
                 <EmptyCart />
               </div>
               <div v-else>
-                <b-row>
+                <b-row class="cart-item">
                   <b-col lg="12" v-for="(item,index) in cart" :key="index">
                     <b-row class="mt-4">
                       <b-col lg="3" cols="3">
@@ -341,15 +341,18 @@
                        <h4>Total : </h4>
                    </b-col>
                    <b-col lg="6" cols="6" class="text-center">
-                       <h4>Rp. {{formatRp(totalPrice())}}</h4>
+                       <h4>Rp. {{formatRp(totalPrice() + totalPrice() * 0.1)}}</h4>
                    </b-col>
                </b-row>
            </b-col>
-           <b-col lg="12">
+           <b-col lg="7" cols="7">
                <p>*PPN 10%</p>
            </b-col>
+           <b-col lg="5" cols="5" class="text-center">
+               <p>Rp. {{formatRp(totalPrice() * 0.1)}}</p>
+           </b-col>
            <b-col lg="12" class="my-3">
-               <button @click="print" class="btn btn-checkout1 text-white">PRINT</button>
+               <button @click="print()" class="btn btn-checkout1 text-white">PRINT</button>
            </b-col>
         </b-row>
     </b-col>
@@ -369,6 +372,8 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
+      kupon: null,
+      disc: null,
       idProduct: null,
       indexProduct: null,
       priceCart: null,
@@ -519,7 +524,29 @@ export default {
     print: function () {
       const pdfName = 'Invoice'
       var doc = new JsPDF()
-      doc.text('Ini invoice ceritanya', 10, 10)
+      doc.setFontSize(12)
+      doc.text('- NONGSKUY -', 10, 10)
+      doc.text(`Date : ${new Date().toJSON().slice(0, 10)}`, 160, 10)
+      doc.text('CHECKOUT SUCCESS', 80, 30)
+      doc.text('Cashier : Pevita Pearce', 20, 40)
+      doc.text('Receipt no : #23', 140, 40)
+      doc.text('Orders : ', 20, 50)
+      const itemOrders = []
+      for (var i in this.cart) {
+        itemOrders.push(`${this.cart[i].name} ${this.cart[i].qty}x (@Rp. ${this.formatRp(this.cart[i].price)})`)
+      }
+      const qtyOrders = []
+      for (var j in this.cart) {
+        qtyOrders.push(`Rp. ${this.formatRp(this.cart[j].price * this.cart[j].qty)}`)
+      }
+      const dist = itemOrders.length * 5
+      doc.text(itemOrders, 37, 50)
+      doc.text(qtyOrders, 140, 50)
+      doc.text('PPN (10%) : ', 20, 60 + dist)
+      doc.text(`Rp. ${this.formatRp(this.totalPrice() * 0.1)}`, 140, 60 + dist)
+      doc.text('Total Price : ', 20, 70 + dist)
+      doc.text(`Rp. ${this.formatRp(this.totalPrice() + (this.totalPrice() * 0.1))}`, 140, 70 + dist)
+      doc.text('THANK YOU FOR COMING', 76, 80 + dist)
       doc.save(pdfName + '.pdf')
       Swal.fire(
         'Thank You!',
@@ -563,6 +590,7 @@ export default {
 <style scoped>
 .card-body {
   background: rgba(190, 195, 202, 0.3);
+  position: relative;
 }
 .item img {
   width: 100%;
@@ -586,6 +614,11 @@ box-sizing: border-box;
   background: rgba(130, 222, 58, 0.2);
 border: 1px solid #82DE3A;
 box-sizing: border-box;
+}
+.cart-item{
+  overflow: auto;
+  height: 80vh;
+  position: relative;
 }
 .btn-sum{
   background: #FFFFFF;
@@ -612,6 +645,11 @@ box-sizing: border-box;
   .cart-responsive{
     display:none;
   }
+  .cart-item{
+  overflow: hidden;
+  height: 10vh;
+  position: relative;
+}
 
 }
 @media only screen and (min-width: 1000px) {
